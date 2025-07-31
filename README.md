@@ -1,1 +1,108 @@
-# Heart-Disease-Risk-Detector-using-Logistic-Regression
+# 🩺 Heart Disease Risk Checker
+
+A Machine Learning project that predicts the likelihood of heart disease using a **Logistic Regression** model. The project includes an interactive **Gradio UI** for easy user input and real-time prediction.
+
+## 🚀 Features
+
+- Built using `LogisticRegression` from scikit-learn
+- Takes in health inputs:
+  - Age (Years)
+  - Blood Pressure (mmHg)
+  - Cholesterol (mg/dL)
+  - Diabetes (Yes/No)
+- Predicts:
+  - ✅ Likely Healthy
+  - ⚠️ At Risk of Heart Disease
+- Simple and intuitive Gradio interface with sliders and radio buttons
+
+## 📊 Dataset
+
+- Dataset used: `heart_disease_dataset.csv`
+- Features: `age`, `bp`, `cholesterol`, `diabetes`
+- Target: `target` (1 = Heart Disease, 0 = Healthy)
+
+## 🧠 Model Training
+
+```python
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# Load dataset
+import pandas as pd
+df = pd.read_csv("heart_disease_dataset.csv")
+
+# Feature and target selection
+X = df[['age', 'bp', 'cholesterol', 'diabetes']]
+y = df['target']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Evaluate
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
+```
+
+## 🖥 Gradio Web Interface
+
+```python
+import gradio as gr
+import pandas as pd
+
+def predict_heart_disease(age, bp, cholesterol, diabetes):
+    diabetes = 1 if diabetes == "Yes" else 0
+    input_data = pd.DataFrame([[age, bp, cholesterol, diabetes]], columns=['age', 'bp', 'cholesterol', 'diabetes'])
+    prediction = model.predict(input_data)[0]
+    return "⚠️ At Risk of Heart Disease" if prediction == 1 else "✅ Likely Healthy"
+
+gr.Interface(
+    fn=predict_heart_disease,
+    inputs=[
+        gr.Slider(10, 100, step=1, label="Age (Years)"),
+        gr.Slider(80, 200, step=1, label="Blood Pressure (mmHg)"),
+        gr.Slider(100, 350, step=1, label="Cholesterol (mg/dL)"),
+        gr.Radio(["No", "Yes"], label="Diabetes")
+    ],
+    outputs="text",
+    title="🩺 Heart Disease Risk Checker",
+    description="Enter your health information to check risk level using a Logistic Regression model.",
+    allow_flagging="never"
+).launch()
+```
+
+## 📁 Folder Structure
+
+```
+📦heart-disease-risk-checker
+ ┣ 📄 heart_disease_dataset.csv
+ ┣ 📄 model_training.ipynb
+ ┣ 📄 app.py
+ ┗ 📄 README.md
+```
+
+## 📌 Requirements
+
+- Python 3.8+
+- pandas
+- scikit-learn
+- gradio
+
+Install dependencies:
+```bash
+pip install pandas scikit-learn gradio
+```
+
+## 📷 Screenshot
+
+![UI Preview](https://github.com/user-attachments/assets/fec4b271-e691-4e6f-bba8-6ce8e20dc6e7)
+
+## 📜 License
+
+This project is licensed under the MIT License.
