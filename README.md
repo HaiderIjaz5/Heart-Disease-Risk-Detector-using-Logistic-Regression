@@ -118,7 +118,7 @@ pip install pandas scikit-learn gradio
 
 ## 📷 Screenshot
 
-![UI Preview](httpsgithub.comuser-attachmentsassetsfec4b271-e691-4e6f-bba8-6ce8e20dc6e7)
+![UI Preview](https://github.com/user-attachments/assets/b47491e7-94aa-4b2a-9a18-3f99617573e1)
 
 ---
 
